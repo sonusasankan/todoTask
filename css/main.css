@@ -36,6 +36,7 @@ body{
   border: 0px;
   padding: 10px;
   font-size: 16px;
+  box-sizing: padding-box;
 }
 #todo, #task_completed{
   float: left;
@@ -45,10 +46,10 @@ body{
 
 }
 /*a.secondary-content{
-  color: #afafaf;
+color: #afafaf;
 }
 a.secondary-content.complete, a.secondary-content.remove{
- color: #26a69a;
+color: #26a69a;
 }*/
 .collection-item button{
   background-color: transparent;
@@ -62,11 +63,80 @@ a.secondary-content.complete, a.secondary-content.remove{
   color: #26a69a;
 }
 .collection-item button.completed, .collection-item button.removed{
-   color: #26a69a;
-}
-#todo_wraper .warning{
-  border: 1px solid red!important;
+  color: #26a69a;
 }
 #todo_wraper .warning::placeholder{
   color: #ff6767;
+}
+
+.c-btn {
+  font-size: 14px;
+  text-transform: capitalize;
+  font-weight: 600;
+  display: inline-block;
+  line-height: 36px;
+  cursor: pointer;
+  text-align: center;
+  text-transform: uppercase;
+  min-width: 88px;
+  height: 36px;
+  margin: 10px 8px;
+  padding: 0 8px;
+  text-align: center;
+  letter-spacing: .5px;
+  border-radius: 2px;
+  background: #F1F1F1;
+  color: #393939;
+  -webkit-transition: background 200ms ease-in-out;
+  transition: background 200ms ease-in-out;
+  box-shadow: 0 3.08696px 5.82609px 0 rgba(0, 0, 0, 0.16174), 0 3.65217px 12.91304px 0 rgba(0, 0, 0, 0.12435);
+}
+
+.c-btn--flat {
+  background: transparent;
+  margin: 10px 8px;
+  min-width: 52px;
+}
+
+.c-btn:hover {
+  background: rgba(153, 153, 153, 0.2);
+  color: #393939;
+}
+
+.c-btn:active {
+  box-shadow: 0 9.6087px 10.78261px 0 rgba(0, 0, 0, 0.17217), 0 13.56522px 30.3913px 0 rgba(0, 0, 0, 0.15043);
+}
+
+.c-btn--flat, .c-btn--flat:hover, .c-btn--flat:active {
+  box-shadow: none;
+}
+#myFlatBtn{
+  position: absolute;
+  right: -10px;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0);
+  height: 64px;
+  width: 64px;
+}
+#myFlatBtn i{
+  color: #4db6ac;
+  font-size: 2.5rem;
+  left: 50%;
+  position:absolute;
+  top: 50%;
+  transform: translateY(-50%) translateX(-50%);
+}
+ .disable{
+  color: #9F9F9F;
+}
+.card-action button{
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin-right: 24px;
+  color: #9F9F9F;
+  transition: color .3s ease;
+}
+.card-action button:hover, .card-action button:active, .card-action button:focus{
+    color: #777;
 }

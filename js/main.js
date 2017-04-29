@@ -13,43 +13,68 @@ firebase.initializeApp(config);
 var database = firebase.database();
 var ref  = database.ref();
 var list = document.getElementById('todo');
-var item = document.createElement('li');
+var item = document.createElement('div');
+var card = document.createElement('div');
+var cardContent = document.createElement('div');
+var taskTitle   = document.createElement('span');
+var cardAction =  document.createElement('div');
 var remove = document.createElement('button');
-var deleteIcon = document.createElement('i')
+var deleteIcon = document.createElement('i');
 var complete = document.createElement('button');
 var completeIcon = document.createElement('i');
 
 document.addEventListener("DOMContentLoaded", function(event) {
-    ref.child('task').on('value', function(snapshot) {
-      if(snapshot.val() == null){
-        return;
-      }
-      item.innerText = snapshot.val();
-      addItemTodo(item.innerText);
-    });
+  ref.child('task').on('value', function(snapshot) {
+    if(snapshot.val() == null){
+      return;
+    }
+    taskTitle.innerText = snapshot.val();
+    addItemTodo(taskTitle.innerText);
+  });
 });
+
+// function createItem(name){
+//   return `<div class="col s12 m4">
+//     <div class="card grey lighten-4">
+//       <div class="card-content ">
+//         <span class="card-title">`+name+`</span>
+//       </div>
+//       <div class="card-action">
+//         <a href="#"><i class="material-icons">done</i></a>
+//         <a href="#"><i class="material-icons">delete</i></a>
+//       </div>
+//     </div>
+//   </div>`;
+// }
 
 
 function  addItemTodo(value){
 
-if(item.innerText !== null){
-  item.classList.add('collection-item');
-  remove.classList.add('secondary-content');
-  deleteIcon.classList.add('material-icons');
-  deleteIcon.innerHTML= 'delete';
-  remove.addEventListener('click', removeItem);
-}
+  if(taskTitle.innerText !== null){
+    item.classList.add('col','s12','m4');
+    card.classList.add('card','grey','lighten-4');
+    cardContent.classList.add('card-content');
+    taskTitle.classList.add('card-title');
+    cardAction.classList.add('card-action');
+    //remove.classList.add('secondary-content');
+    deleteIcon.classList.add('material-icons');
+    deleteIcon.innerHTML= 'delete';
+    remove.addEventListener('click', removeItem);
+  }
 
 
 
-  complete.classList.add('secondary-content');
+
   completeIcon.classList.add('material-icons');
   completeIcon.innerHTML= 'done';
-
   complete.appendChild(completeIcon);
   remove.appendChild(deleteIcon);
-  item.appendChild(remove);
-  item.appendChild(complete);
+  cardAction.appendChild(remove);
+  cardAction.appendChild(complete);
+  card.appendChild(cardContent);
+  card.appendChild(cardAction);
+  cardContent.appendChild(taskTitle);
+  item.appendChild(card);
   list.appendChild(item);
   complete.addEventListener('click' , completedItem);
 
@@ -61,10 +86,11 @@ if(item.innerText !== null){
 }
 
 function completedItem(value){
+
   this.classList.add('completed');
-  var item = this.parentNode;
-  var parent = item.parentNode;
-  parent.removeChild(item);
+  var myNode = this.parentNode.parentNode.parentNode;
+  ref.child('task').remove();
+  myNode.parentNode.removeChild(myNode);
 
   var list = document.getElementById('task_completed');
   //  var item = document.createElement('li');
@@ -76,10 +102,16 @@ function completedItem(value){
 
 
 function removeItem() {
+  var myNode = this.parentNode.parentNode.parentNode;
+  ref.child('task').remove();
+  myNode.parentNode.removeChild(myNode);
+  // while (myNode.firstChild) {
+  //   myNode.removeChild(myNode.firstChild);
+  // }
   var item = this.parentNode;
   var parent = item.parentNode;
-  ref.child('task').remove();
-  parent.removeChild(item);
+
+  // parent.removeChild(item);
 
 }
 
@@ -87,22 +119,22 @@ function removeItem() {
 document.getElementById('add').addEventListener('click', function(){
   var value = document.getElementById('item').value;
   if(value){addItemTodo(value);
-  ref.child('task').set(value);
-} else{
-  document.getElementsByName('task')[0].placeholder="Field shouldn't be empty";
-  document.getElementById('item').classList.add('warning');
-}
+    ref.child('task').set(value);
+  } else{
+    document.getElementsByName('task')[0].placeholder="Field shouldn't be empty";
+    document.getElementById('item').classList.add('warning');
+  }
 
 });
 
 document.getElementById('item').onkeydown = function(event) {
-    if (event.keyCode == 13) {
-      var value = document.getElementById('item').value;
-      if(value){addItemTodo(value);
+  if (event.keyCode == 13) {
+    var value = document.getElementById('item').value;
+    if(value){addItemTodo(value);
       ref.child('task').set(value);
     } else{
       document.getElementsByName('task')[0].placeholder="Field shouldn't be empty";
       document.getElementById('item').classList.add('warning');
     }
-    }
+  }
 }
